@@ -62,28 +62,37 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         padding: EdgeInsets.all(64),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextField(
-              decoration: new InputDecoration(labelText: "Traffic (erlangs)"),
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-              onChanged: (String value) {
-                setState(() {
-                  _textA = value;
-                  _traffic = double.parse(_textA);
-                });
-              }
+            SizedBox(
+              width: 180,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  TextField(
+                    decoration: new InputDecoration(labelText: "Traffic (erlangs)"),
+                    keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+                    onChanged: (String value) {
+                      setState(() {
+                        _textA = value;
+                        _traffic = double.parse(_textA);
+                      });
+                    }
+                  ),
+                  TextField(
+                    decoration: new InputDecoration(labelText: "Number of Lines"),
+                    keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+                    onChanged: (String value) {
+                      setState(() {
+                        _textL = value;
+                        _lines = double.parse(_textL);
+                      });
+                    }
+                  ),
+                ],
+              ),
             ),
-            TextField(
-              decoration: new InputDecoration(labelText: "Number of Lines"),
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-              onChanged: (String value) {
-                setState(() {
-                  _textL = value;
-                  _lines = double.parse(_textL);
-                });
-              }
-            ),
+
             ElevatedButton(
                 onPressed: () {
                   setState(() {
