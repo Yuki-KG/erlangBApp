@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(ErlangBApp());
@@ -39,7 +40,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double _traffic = 0.0;
-  int _lines = 0;
+  double _lines = 0.0;
   double _blocking = 0.0;
   String _textA = '';
   String _textL = '';
@@ -75,18 +76,22 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextField(
               decoration: new InputDecoration(labelText: "Number of Lines"),
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
               onChanged: (String value) {
                 setState(() {
                   _textL = value;
-                  _lines = int.parse(_textL);
+                  _lines = double.parse(_textL);
                 });
               }
             ),
             ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    _blocking = ES(_traffic, _lines);
+                    if(_lines.floor() == _lines) {
+                      _blocking = ES(_traffic, _lines.toInt());
+                    } else {
+                      _blocking = ESCont(_traffic, _lines);
+                    }
                     _esText = (_blocking == 0.0) ? '' : 'Blocking Rate = $_blocking %';
                   });
                 },
@@ -111,6 +116,25 @@ double ES(double a, int s) {
   double es = 1.0;
   for(i = 1; i <= s; i++) {
     es = a * es / (i + a*es);
+  }
+  return(100.0 * es);
+}
+
+double ESCont(double a, double s) {
+  int i;
+  int n = s.toInt();
+  double x = s - n.toDouble();
+  int k = (5/4*sqrt(x+500) + 4/a).toInt();
+  double esk = a;
+  double es;
+
+  for(i = k; i >= 1; i--) {
+    esk = a + (-x + i - 1)/(1 + i/esk);
+  }
+  es = esk / a;
+
+  for(i = 1; i <= n; i++) {
+    es = a * es/(x + i + a*es);
   }
   return(100.0 * es);
 }
