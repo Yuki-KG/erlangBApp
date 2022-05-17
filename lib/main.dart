@@ -107,9 +107,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('Calculate!'),
             ),
 
-            /*Text('$_servers servers',
-              style: TextStyle(fontSize: 24),
-            ),*/
+            const Divider(
+              height: 20,
+              thickness: 1,
+              indent: 0,
+              endIndent: 0,
+              color: Colors.black,
+            ),
+
             Text('$_esText',
               style: TextStyle(fontSize: 24),
             ),
